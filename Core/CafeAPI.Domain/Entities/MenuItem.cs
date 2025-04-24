@@ -1,6 +1,6 @@
 ﻿namespace CafeAPI.Domain.Entities;
 
-public class MenuItems : BaseEntity
+public class MenuItem : BaseEntity
 {
     public string Name { get; set; }
     public string Description { get; set; }
