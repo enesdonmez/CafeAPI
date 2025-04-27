@@ -29,7 +29,7 @@ public class MenuItemService : IMenuItemService
         await _menuItemRepository.DeleteAsync(menuItem);
     }
 
-    public async Task<List<ResultMenuItemDto>> GetAllCategories()
+    public async Task<List<ResultMenuItemDto>> GetAllMenuItems()
     {
         var menuItems = await _menuItemRepository.GetAllAsync();
         var result = _mapper.Map<List<ResultMenuItemDto>>(menuItems);
