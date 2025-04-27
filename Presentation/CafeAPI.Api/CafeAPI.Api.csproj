@@ -12,13 +12,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Scalar.AspNetCore" Version="2.2.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\Core\CafeAPI.Application\CafeAPI.Application.csproj" />
     <ProjectReference Include="..\..\Infrastructure\CafeAPI.Persistence\CafeAPI.Persistence.csproj" />
   </ItemGroup>
 

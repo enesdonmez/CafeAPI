@@ -1,5 +1,8 @@
-using CafeAPI.Persistence.Context;
-using Microsoft.EntityFrameworkCore;
+using CafeAPI.Application;
+using CafeAPI.Application.Interfaces;
+using CafeAPI.Persistence;
+using CafeAPI.Persistence.Repository;
+using Scalar.AspNetCore;
 
 namespace CafeAPI.Api;
 
@@ -9,8 +12,10 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("CafeDbConnection")));
+
+        builder.Services.AddPersistenceServices(builder.Configuration);
+        builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+        builder.Services.AddApplicationServices();
         builder.Services.AddControllers();
         builder.Services.AddOpenApi();
 
@@ -19,6 +24,12 @@ public class Program
         if (app.Environment.IsDevelopment())
         {
             app.MapOpenApi();
+            app.MapScalarApiReference(options =>
+            {
+                options.WithTitle("Cafe API")
+                       .WithTheme(ScalarTheme.Saturn)
+                       .WithDefaultHttpClient(ScalarTarget.Http, ScalarClient.Http11);
+            });
         }
 
         app.UseHttpsRedirection();
