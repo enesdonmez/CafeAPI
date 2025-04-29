@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CafeAPI.Application.Dtos.CategoryDtos;
+using CafeAPI.Application.Dtos.ResponseDtos;
 using CafeAPI.Application.Interfaces;
 using CafeAPI.Application.Services.Abstract;
 using CafeAPI.Domain.Entities;
@@ -29,18 +30,41 @@ public class CategoryService : ICategoryService
         await _categoryRepository.DeleteAsync(category);
     }
 
-    public async Task<List<ResultCategoryDto>> GetAllCategories()
+    public async Task<ResponseDto<List<ResultCategoryDto>>> GetAllCategories()
     {
-        var categories = await _categoryRepository.GetAllAsync();
-        var result = _mapper.Map<List<ResultCategoryDto>>(categories);
-        return result;
+        try
+        {
+            var categories = await _categoryRepository.GetAllAsync();
+            if (categories.Count == 0)
+            {
+                return new ResponseDto<List<ResultCategoryDto>> { IsSuccess = false, Message = "Kategori Bulunamadı.", ErrorCodes = ErrorCodes.NotFound };
+            }
+            var result = _mapper.Map<List<ResultCategoryDto>>(categories);
+            return new ResponseDto<List<ResultCategoryDto>> { IsSuccess = true, Data = result };
+        }
+        catch (Exception ex)
+        {
+            return new ResponseDto<List<ResultCategoryDto>> { IsSuccess = false, Message = ex.Message, ErrorCodes = ErrorCodes.Exception };   
+        }
     }
 
-    public async Task<DetailCategoryDto> GetCategoryById(int id)
+    public async Task<ResponseDto<DetailCategoryDto>> GetCategoryById(int id)
     {
-        var category = await _categoryRepository.GetByIdAsync(id);
-        var result = _mapper.Map<DetailCategoryDto>(category);
-        return result;
+        try
+        {
+            var category = await _categoryRepository.GetByIdAsync(id);
+            if (category == null)
+            {
+                return new ResponseDto<DetailCategoryDto> { IsSuccess = false, Message = "Kategori Bulunamadı.", ErrorCodes = ErrorCodes.NotFound };
+            }
+            var result = _mapper.Map<DetailCategoryDto>(category);
+            return new ResponseDto<DetailCategoryDto> { IsSuccess = true, Data = result };
+        }
+        catch (Exception e)
+        {
+            return new ResponseDto<DetailCategoryDto> { IsSuccess = false, Message = e.Message, ErrorCodes = ErrorCodes.Exception };
+        }
+
     }
 
     public async Task UpdateCategory(UpdateCategoryDto updateCategoryDto)
