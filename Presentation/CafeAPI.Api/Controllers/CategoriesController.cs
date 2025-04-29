@@ -1,5 +1,7 @@
 ﻿using CafeAPI.Application.Dtos.CategoryDtos;
+using CafeAPI.Application.Dtos.ResponseDtos;
 using CafeAPI.Application.Services.Abstract;
+using CafeAPI.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CafeAPI.Api.Controllers
@@ -14,11 +16,17 @@ namespace CafeAPI.Api.Controllers
         {
             _categoryService = categoryService;
         }
-         
+
         [HttpGet("GetAllCategory")]
         public async Task<IActionResult> GetAllCategories()
         {
             var categories = await _categoryService.GetAllCategories();
+            if (!categories.IsSuccess)
+            {
+                if (categories.ErrorCodes == ErrorCodes.NotFound)
+                    return NotFound(categories);
+                return BadRequest(categories);
+            }
             return Ok(categories);
         }
 
@@ -26,6 +34,13 @@ namespace CafeAPI.Api.Controllers
         public async Task<IActionResult> GetCategoryById(int id)
         {
             var category = await _categoryService.GetCategoryById(id);
+            if (!category.IsSuccess)
+            {
+                if (category.ErrorCodes == ErrorCodes.NotFound)
+                    return NotFound(category);
+                return BadRequest(category);
+            }
+
             return Ok(category);
         }
 
