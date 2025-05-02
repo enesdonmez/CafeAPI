@@ -1,12 +1,13 @@
 ﻿using CafeAPI.Application.Dtos.MenuItemDtos;
+using CafeAPI.Application.Dtos.ResponseDtos;
 
 namespace CafeAPI.Application.Services.Abstract;
 
 public interface IMenuItemService
 {
-    Task<List<ResultMenuItemDto>> GetAllMenuItems();
-    Task<DetailMenuItemDto> GetMenuItemById(int id);
-    Task CreateMenuItem(CreateMenuItemDto createMenuItemDto);
-    Task UpdateMenuItem(UpdateMenuItemDto updateMenuItemDto);
-    Task DeleteMenuItem(int id);
+    Task<ResponseDto<List<ResultMenuItemDto>>> GetAllMenuItems();
+    Task<ResponseDto<DetailMenuItemDto>> GetMenuItemById(int id);
+    Task<ResponseDto<object>> CreateMenuItem(CreateMenuItemDto createMenuItemDto);
+    Task<ResponseDto<object>> UpdateMenuItem(UpdateMenuItemDto updateMenuItemDto);
+    Task<ResponseDto<object>> DeleteMenuItem(int id);
 }

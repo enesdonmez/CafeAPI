@@ -1,7 +1,6 @@
 ﻿using CafeAPI.Application.Dtos.CategoryDtos;
 using CafeAPI.Application.Dtos.ResponseDtos;
 using CafeAPI.Application.Services.Abstract;
-using CafeAPI.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CafeAPI.Api.Controllers
@@ -47,22 +46,38 @@ namespace CafeAPI.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto createCategoryDto)
         {
-            await _categoryService.CreateCategory(createCategoryDto);
-            return Ok("Kategori Oluşturuldu.");
+            var result = await _categoryService.CreateCategory(createCategoryDto);
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
 
         [HttpPut("UpdateCategory")]
         public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryDto updateCategoryDto)
         {
-            await _categoryService.UpdateCategory(updateCategoryDto);
-            return Ok("Kategori Güncellendi.");
+            var result = await _categoryService.UpdateCategory(updateCategoryDto);
+            if (!result.IsSuccess)
+            {
+                if (result.ErrorCodes == ErrorCodes.NotFound)
+                    return NotFound(result);
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            await _categoryService.DeleteCategory(id);
-            return Ok("Kategori Silindi.");
+            var result = await _categoryService.DeleteCategory(id);
+            if (!result.IsSuccess)
+            {
+                if (result.ErrorCodes == ErrorCodes.NotFound)
+                    return NotFound(result);
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using CafeAPI.Application.Dtos.MenuItemDtos;
+using CafeAPI.Application.Dtos.ResponseDtos;
 using CafeAPI.Application.Services.Abstract;
+using CafeAPI.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CafeAPI.Api.Controllers
@@ -19,6 +21,12 @@ namespace CafeAPI.Api.Controllers
         public async Task<IActionResult> GetAllMenuItems()
         {
             var menuItems = await _menuItemService.GetAllMenuItems();
+            if (!menuItems.IsSuccess)
+            {
+                if (menuItems.ErrorCodes == ErrorCodes.NotFound)
+                    return NotFound(menuItems);
+                return BadRequest(menuItems);
+            }
             return Ok(menuItems);
         }
 
@@ -26,27 +34,51 @@ namespace CafeAPI.Api.Controllers
         public async Task<IActionResult> GetMenuItemById(int id)
         {
             var menuItem = await _menuItemService.GetMenuItemById(id);
+            if (!menuItem.IsSuccess)
+            {
+                if (menuItem.ErrorCodes == ErrorCodes.NotFound)
+                    return NotFound(menuItem);
+                return BadRequest(menuItem);
+            }
             return Ok(menuItem);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateMenuItem([FromBody] CreateMenuItemDto createMenuItemDto)
         {
-            await _menuItemService.CreateMenuItem(createMenuItemDto);
+           var result = await _menuItemService.CreateMenuItem(createMenuItemDto);
+            if (!result.IsSuccess)
+            {
+                if (result.ErrorCodes == ErrorCodes.NotFound)
+                    return NotFound(result);
+                return BadRequest(result);
+            }
             return Ok("Menü öğesi oluşturuldu.");
         }
 
         [HttpPut("UpdateMenuItem")]
         public async Task<IActionResult> UpdateMenuItem([FromBody] UpdateMenuItemDto updateMenuItemDto)
         {
-            await _menuItemService.UpdateMenuItem(updateMenuItemDto);
+            var result = await _menuItemService.UpdateMenuItem(updateMenuItemDto);
+            if (!result.IsSuccess)
+            {
+                if (result.ErrorCodes == ErrorCodes.NotFound)
+                    return NotFound(result);
+                return BadRequest(result);
+            }
             return Ok("Menü öğesi güncellendi.");
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMenuItem(int id)
         {
-            await _menuItemService.DeleteMenuItem(id);
+            var result = await _menuItemService.DeleteMenuItem(id);
+            if (!result.IsSuccess)
+            {
+                if (result.ErrorCodes == ErrorCodes.NotFound)
+                    return NotFound(result);
+                return BadRequest(result);
+            }
             return Ok("Menü öğesi silindi.");
         }
     }
