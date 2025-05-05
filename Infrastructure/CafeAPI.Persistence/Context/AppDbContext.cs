@@ -11,6 +11,7 @@ public class AppDbContext : DbContext
 
     public DbSet<MenuItem> MenuItems { get; set; } 
     public DbSet<Category> Categories { get; set; } 
+    public DbSet<Table> Tables { get; set; } 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

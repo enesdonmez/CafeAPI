@@ -1,5 +1,6 @@
 ﻿using CafeAPI.Application.Dtos.CategoryDtos;
 using CafeAPI.Application.Dtos.MenuItemDtos;
+using CafeAPI.Application.Dtos.TableDtos;
 using CafeAPI.Application.Mapping;
 using CafeAPI.Application.Services.Abstract;
 using CafeAPI.Application.Services.Concrete;
@@ -15,9 +16,12 @@ public static class ServiceRegistration
         serviceCollection.AddAutoMapper(typeof(GeneralMapping));
         serviceCollection.AddScoped<ICategoryService, CategoryService>();
         serviceCollection.AddScoped<IMenuItemService, MenuItemService>();
+        serviceCollection.AddScoped<ITableService, TableService>();
         serviceCollection.AddValidatorsFromAssemblyContaining<CreateCategoryDto>();
         serviceCollection.AddValidatorsFromAssemblyContaining<UpdateCategoryDto>();
         serviceCollection.AddValidatorsFromAssemblyContaining<CreateMenuItemDto>();
         serviceCollection.AddValidatorsFromAssemblyContaining<UpdateMenuItemDto>();
+        serviceCollection.AddValidatorsFromAssemblyContaining<CreateTableDto>();
+        serviceCollection.AddValidatorsFromAssemblyContaining<UpdateTableDto>();
     }
 }
