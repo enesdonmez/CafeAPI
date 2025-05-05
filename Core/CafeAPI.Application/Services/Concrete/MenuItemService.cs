@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CafeAPI.Application.Dtos.CategoryDtos;
 using CafeAPI.Application.Dtos.MenuItemDtos;
 using CafeAPI.Application.Dtos.ResponseDtos;
 using CafeAPI.Application.Interfaces;
@@ -12,16 +11,18 @@ namespace CafeAPI.Application.Services.Concrete;
 public class MenuItemService : IMenuItemService
 {
     private readonly IGenericRepository<MenuItem> _menuItemRepository;
+    private readonly IGenericRepository<Category> _categoryRepository;
     private readonly IMapper _mapper;
     private readonly IValidator<CreateMenuItemDto> _createMenuItemValidator;
     private readonly IValidator<UpdateMenuItemDto> _updateMenuItemValidator;
 
-    public MenuItemService(IGenericRepository<MenuItem> menuItemRepository, IMapper mapper, IValidator<CreateMenuItemDto> createMenuItemValidator, IValidator<UpdateMenuItemDto> updateMenuItemValidator)
+    public MenuItemService(IGenericRepository<MenuItem> menuItemRepository, IMapper mapper, IValidator<CreateMenuItemDto> createMenuItemValidator, IValidator<UpdateMenuItemDto> updateMenuItemValidator, IGenericRepository<Category> categoryRepository)
     {
         _menuItemRepository = menuItemRepository;
         _mapper = mapper;
         _createMenuItemValidator = createMenuItemValidator;
         _updateMenuItemValidator = updateMenuItemValidator;
+        _categoryRepository = categoryRepository;
     }
 
     public async Task<ResponseDto<object>> CreateMenuItem(CreateMenuItemDto createMenuItemDto)
@@ -67,6 +68,7 @@ public class MenuItemService : IMenuItemService
         try
         {
             var menuItems = await _menuItemRepository.GetAllAsync();
+            var categories = await _categoryRepository.GetAllAsync();
             if (menuItems.Count == 0)
             {
                 return new ResponseDto<List<ResultMenuItemDto>> { IsSuccess = false, Message = "Menü öğesi Bulunamadı.", ErrorCodes = ErrorCodes.NotFound };
@@ -86,6 +88,7 @@ public class MenuItemService : IMenuItemService
         try
         {
             var menuItem = await _menuItemRepository.GetByIdAsync(id);
+            var categories = await _categoryRepository.GetAllAsync();
             if (menuItem == null)
             {
                 return new ResponseDto<DetailMenuItemDto> { IsSuccess = false, Message = "Menü öğesi Bulunamadı.", ErrorCodes = ErrorCodes.NotFound };
