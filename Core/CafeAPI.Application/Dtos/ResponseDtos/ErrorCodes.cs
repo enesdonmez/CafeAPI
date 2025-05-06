@@ -6,5 +6,6 @@
         public const string Unauthorized = "UNAUTHORIZED";
         public const string Exception = "EXCEPTION";
         public const string ValidationError = "VALIDATION_ERROR";
+        public const string DuplicateError = "DUPLICATE_ERROR";
     }
 }
