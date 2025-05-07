@@ -28,8 +28,11 @@ namespace CafeAPI.Api.Controllers
             var result = await _tableService.CreateTable(createTableDto);
             if (!result.IsSuccess)
             {
-                if (result.ErrorCodes == ErrorCodes.NotFound)
+                if (result.ErrorCodes is ErrorCodes.NotFound)
                     return NotFound(result);
+                else if (result.ErrorCodes is ErrorCodes.DuplicateError)
+                    return Conflict(result);
+
                 return BadRequest(result);
             }
             return Ok(result);
@@ -61,7 +64,7 @@ namespace CafeAPI.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetByIdTable/{id}")]
         public async Task<IActionResult> GetTableById(int id)
         {
             var table = await _tableService.GetTableById(id);

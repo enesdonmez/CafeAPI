@@ -34,7 +34,7 @@ namespace CafeAPI.Application.Services.Concrete
                 {
                     return new ResponseDto<object> { IsSuccess = false, Data = null, Message = string.Join(",",validate.Errors.Select(x => x.ErrorMessage)), ErrorCodes = ErrorCodes.ValidationError };
                 }
-                var checkTable = await _tableRepository.GetByIdAsync(createTableDto.TableNumber);
+                var checkTable = await _tableRepository2.GetByTableNumberAsync(createTableDto.TableNumber);
                 if (checkTable != null)
                 {
                     return new ResponseDto<object> { IsSuccess = false, Data = null, Message = "Masa zaten mevcut.", ErrorCodes = ErrorCodes.DuplicateError };
@@ -146,6 +146,10 @@ namespace CafeAPI.Application.Services.Concrete
                     return new ResponseDto<object> { IsSuccess = false, Data = null, Message = string.Join(",", validate.Errors.Select(x => x.ErrorMessage)), ErrorCodes = ErrorCodes.ValidationError };
                 }
                 var rp = await _tableRepository.GetByIdAsync(updateTableDto.Id);
+                if (rp == null)
+                {
+                    return new ResponseDto<object> { IsSuccess = false, Data = null, Message = "Masa bulunamadı.", ErrorCodes = ErrorCodes.NotFound };
+                }
                 var result = _mapper.Map(updateTableDto,rp);
                 await _tableRepository.UpdateAsync(result);
                 return new ResponseDto<object> { IsSuccess = true, Data = result, Message = "Masa başarıyla güncellendi." };

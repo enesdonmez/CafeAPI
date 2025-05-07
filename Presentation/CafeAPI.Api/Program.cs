@@ -15,7 +15,7 @@ public class Program
 
         builder.Services.AddPersistenceServices(builder.Configuration);
         builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-        builder.Services.AddScoped(typeof(ITableRepository), typeof(TableRepository));
+        builder.Services.AddScoped<ITableRepository,TableRepository>();
         builder.Services.AddApplicationServices();
         builder.Services.AddControllers();
         builder.Services.AddOpenApi();
