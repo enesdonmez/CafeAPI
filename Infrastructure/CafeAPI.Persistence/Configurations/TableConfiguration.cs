@@ -13,8 +13,8 @@ namespace CafeAPI.Persistence.Configurations
 
             entity.Property(e => e.TableNumber)
                   .IsRequired()
-                  .HasMaxLength(50)
-                  .HasColumnType("nvarchar(50)");
+                  .HasMaxLength(250)
+                  .HasColumnType("int");
 
             entity.Property(e => e.Capacity)
                   .IsRequired()
