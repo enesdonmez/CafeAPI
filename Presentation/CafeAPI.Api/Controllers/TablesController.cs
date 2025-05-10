@@ -1,5 +1,4 @@
-﻿using CafeAPI.Application.Dtos.ResponseDtos;
-using CafeAPI.Application.Dtos.TableDtos;
+﻿using CafeAPI.Application.Dtos.TableDtos;
 using CafeAPI.Application.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
