@@ -1,6 +1,7 @@
-@CafeAPI.Api_HostAddress = http://localhost:5113
+@CafeAPI.Api_HostAddress = https://localhost:7080
 
-GET {{CafeAPI.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+GET {{CafeAPI.Api_HostAddress}}/api/categories/GetAllCategory
 
 ###
+
+GET {{CafeAPI.Api_HostAddress}}/api/tables/GetAllTables
