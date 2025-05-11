@@ -1,5 +1,7 @@
 ﻿using CafeAPI.Application.Dtos.CategoryDtos;
 using CafeAPI.Application.Dtos.MenuItemDtos;
+using CafeAPI.Application.Dtos.OrderDtos;
+using CafeAPI.Application.Dtos.OrderItemDtos;
 using CafeAPI.Application.Dtos.TableDtos;
 using CafeAPI.Application.Mapping;
 using CafeAPI.Application.Services.Abstract;
@@ -17,11 +19,18 @@ public static class ServiceRegistration
         serviceCollection.AddScoped<ICategoryService, CategoryService>();
         serviceCollection.AddScoped<IMenuItemService, MenuItemService>();
         serviceCollection.AddScoped<ITableService, TableService>();
+        serviceCollection.AddScoped<IOrderService, OrderService>();
+        serviceCollection.AddScoped<IOrderItemItemService, OrderItemService>();
         serviceCollection.AddValidatorsFromAssemblyContaining<CreateCategoryDto>();
         serviceCollection.AddValidatorsFromAssemblyContaining<UpdateCategoryDto>();
         serviceCollection.AddValidatorsFromAssemblyContaining<CreateMenuItemDto>();
         serviceCollection.AddValidatorsFromAssemblyContaining<UpdateMenuItemDto>();
         serviceCollection.AddValidatorsFromAssemblyContaining<CreateTableDto>();
         serviceCollection.AddValidatorsFromAssemblyContaining<UpdateTableDto>();
+        serviceCollection.AddValidatorsFromAssemblyContaining<CreateOrderItemDto>();
+        serviceCollection.AddValidatorsFromAssemblyContaining<UpdateOrderItemDto>();
+        serviceCollection.AddValidatorsFromAssemblyContaining<CreateOrderDto>();
+        serviceCollection.AddValidatorsFromAssemblyContaining<UpdateOrderDto>();
+
     }
 }
