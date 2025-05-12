@@ -11,16 +11,20 @@ namespace CafeAPI.Application.Services.Concrete
     public class OrderService : IOrderService
     {
         private readonly IGenericRepository<Order> _orderRepository;
+        private readonly IGenericRepository<OrderItem> _orderItemRepository;
+        private readonly IOrderRepository _orderRepository2;
         private readonly IMapper _mapper;
         private readonly IValidator<CreateOrderDto> _createOrderValidator;
         private readonly IValidator<UpdateOrderDto> _updateOrderValidator;
 
-        public OrderService(IGenericRepository<Order> orderRepository, IMapper mapper, IValidator<CreateOrderDto> createOrderValidator, IValidator<UpdateOrderDto> updateOrderValidator)
+        public OrderService(IGenericRepository<Order> orderRepository, IMapper mapper, IValidator<CreateOrderDto> createOrderValidator, IValidator<UpdateOrderDto> updateOrderValidator, IGenericRepository<OrderItem> orderItemRepository, IOrderRepository orderRepository2)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
             _createOrderValidator = createOrderValidator;
             _updateOrderValidator = updateOrderValidator;
+            _orderItemRepository = orderItemRepository;
+            _orderRepository2 = orderRepository2;
         }
 
         public async Task<ResponseDto<object>> CreateOrder(CreateOrderDto createOrderDto)
@@ -86,7 +90,8 @@ namespace CafeAPI.Application.Services.Concrete
             try
             {
                 var orders = await _orderRepository.GetAllAsync();
-                if (orders == null)
+                var orderItems = await _orderItemRepository.GetAllAsync();
+                if (orders == null || orders.Count == 0)
                 {
                     return new ResponseDto<List<ResultOrderDto>>
                     {
@@ -109,22 +114,50 @@ namespace CafeAPI.Application.Services.Concrete
             }
         }
 
-        public async Task<ResponseDto<DetailOrderDto>> GetOrderById(int id)
+        public async Task<ResponseDto<List<ResultOrderDto>>> GetAllOrdersWithDetail()
         {
             try
             {
-                var order = await _orderRepository.GetByIdAsync(id);
+                var orders = await _orderRepository2.GetAllOrdersWithDetailAsync();
+                if (orders == null || orders.Count == 0)
+                {
+                    return new ResponseDto<List<ResultOrderDto>>
+                    {
+                        IsSuccess = false,
+                        Message = "Siparişler bulunamadı.",
+                        Data = null
+                    };
+                }
+                var resultOrders = _mapper.Map<List<ResultOrderDto>>(orders);
+                return new ResponseDto<List<ResultOrderDto>>
+                {
+                    IsSuccess = true,
+                    Message = "Siparişler başarıyla getirildi.",
+                    Data = resultOrders
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDto<List<ResultOrderDto>> { IsSuccess = false, Message = "Bir hata oluştu.", ErrorCode = ErrorCodes.Exception };
+            }
+        }
+
+        public async Task<ResponseDto<ResultOrderByIdWithDetailDto>> GetOrderById(int id)
+        {
+            try
+            {
+                var order = await _orderRepository2.GetOrderByIdWithDetailAsync(id);
                 if (order == null)
                 {
-                    return new ResponseDto<DetailOrderDto>
+                    return new ResponseDto<ResultOrderByIdWithDetailDto>
                     {
                         IsSuccess = false,
                         Message = "Sipariş bulunamadı.",
                         Data = null
                     };
                 }
-                var resultOrder = _mapper.Map<DetailOrderDto>(order);
-                return new ResponseDto<DetailOrderDto>
+                var resultOrder = _mapper.Map<ResultOrderByIdWithDetailDto>(order);
+                return new ResponseDto<ResultOrderByIdWithDetailDto>
                 {
                     IsSuccess = true,
                     Message = "Sipariş başarıyla getirildi.",
@@ -133,7 +166,7 @@ namespace CafeAPI.Application.Services.Concrete
             }
             catch (Exception)
             {
-                return new ResponseDto<DetailOrderDto> { IsSuccess = false, Message = "Bir hata oluştu.", ErrorCode = ErrorCodes.Exception };
+                return new ResponseDto<ResultOrderByIdWithDetailDto> { IsSuccess = false, Message = "Bir hata oluştu.", ErrorCode = ErrorCodes.Exception };
             }
         }
 

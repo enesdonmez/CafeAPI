@@ -43,5 +43,11 @@ namespace CafeAPI.Api.Controllers
             var result = await _orderService.DeleteOrder(id);
             return CreateResponse(result);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAllOrdersWithDetail()
+        {
+            var orders = await _orderService.GetAllOrdersWithDetail();
+            return CreateResponse(orders);
+        }
     }
 }
