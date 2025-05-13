@@ -1,4 +1,4 @@
-# ☕ CAFE API Projesi
+# ![cafe](https://github.com/user-attachments/assets/4e79ae3b-97e0-4dcd-94ef-f98469a783d4)  CAFE API Projesi
 
 Kafe API, modern yazılım geliştirme prensipleri ve güçlü .NET ekosistemi araçları kullanılarak geliştirilmiş, güvenli, ölçeklenebilir ve sürdürülebilir bir RESTful servis mimarisidir. Bu proje, bir kafe otomasyon sistemine ait temel API ihtiyaçlarını karşılamak üzere tasarlanmıştır.
 
