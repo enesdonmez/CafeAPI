@@ -10,4 +10,5 @@ public interface ICategoryService
     Task<ResponseDto<object>> CreateCategory(CreateCategoryDto createCategoryDto);
     Task<ResponseDto<object>> UpdateCategory(UpdateCategoryDto updateCategoryDto);
     Task<ResponseDto<object>> DeleteCategory(int id);
+    Task<ResponseDto<List<ResultCategoryWithMenuItemDto>>> GetAllCategoriesWithMenuItems();
 }

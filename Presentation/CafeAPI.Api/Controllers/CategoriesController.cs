@@ -50,5 +50,12 @@ namespace CafeAPI.Api.Controllers
             var result = await _categoryService.DeleteCategory(id);
             return CreateResponse(result);
         }
+
+        [HttpGet("GetAllCategoriesWithMenuItems")]
+        public async Task<IActionResult> GetAllCategoriesWithMenuItems()
+        {
+            var categories = await _categoryService.GetAllCategoriesWithMenuItems();
+            return CreateResponse(categories);
+        }
     }
 }

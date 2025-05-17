@@ -13,13 +13,7 @@ public class CreateOrderValidator : AbstractValidator<CreateOrderDto>
         RuleFor(x => x.OrderItems)
             .NotEmpty()
             .WithMessage("Sipariş öğeleri girilmesi zorunludur.");
-        RuleFor(x => x.TotalPrice)
-            .NotEmpty()
-            .WithMessage("Toplam fiyat girilmesi zorunludur.")
-            .GreaterThan(1)
-            .WithMessage("Toplam fiyat 1 den büyük olmalı.");
-        RuleFor(x => x.Status)
-            .NotEmpty()
-            .WithMessage("Sipariş durumu girilmesi zorunludur.");
+      
+
     }
 }

@@ -88,11 +88,11 @@ public class MenuItemService : IMenuItemService
         try
         {
             var menuItem = await _menuItemRepository.GetByIdAsync(id);
-            var categories = await _categoryRepository.GetAllAsync();
             if (menuItem == null)
             {
                 return new ResponseDto<DetailMenuItemDto> { IsSuccess = false, Message = "Menü öğesi Bulunamadı.", ErrorCode = ErrorCodes.NotFound };
             }
+            var categories = await _categoryRepository.GetByIdAsync(menuItem.CategoryId);
             var result = _mapper.Map<DetailMenuItemDto>(menuItem);
             return new ResponseDto<DetailMenuItemDto> { IsSuccess = true, Data = result };
         }

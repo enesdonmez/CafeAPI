@@ -1,6 +1,5 @@
 ﻿using CafeAPI.Application.Dtos.OrderDtos;
 using CafeAPI.Application.Dtos.ResponseDtos;
-using CafeAPI.Domain.Entities;
 
 namespace CafeAPI.Application.Services.Abstract
 {
@@ -12,6 +11,11 @@ namespace CafeAPI.Application.Services.Abstract
         Task<ResponseDto<object>> UpdateOrder(UpdateOrderDto updateOrderDto);
         Task<ResponseDto<object>> DeleteOrder(int id);
         Task<ResponseDto<List<ResultOrderDto>>> GetAllOrdersWithDetail();
+        Task<ResponseDto<object>> UpdateOrderStatusHazir(int id);
+        Task<ResponseDto<object>> UpdateOrderStatusTeslimEdildi(int id);
+        Task<ResponseDto<object>> UpdateOrderStatusIptal(int id);
+        Task<ResponseDto<object>> UpdateOrderStatusOdendi(int id);
+        Task<ResponseDto<object>> AddOrderItemByOrderId(AddOrderItemByOrderIdDto addOrderItemByOrderIdDto);
 
     }
 }

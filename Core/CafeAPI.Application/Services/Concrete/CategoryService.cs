@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CafeAPI.Application.Dtos.CategoryDtos;
+using CafeAPI.Application.Dtos.MenuItemDtos;
 using CafeAPI.Application.Dtos.ResponseDtos;
 using CafeAPI.Application.Interfaces;
 using CafeAPI.Application.Services.Abstract;
@@ -11,16 +12,18 @@ namespace CafeAPI.Application.Services.Concrete;
 public class CategoryService : ICategoryService
 {
     private readonly IGenericRepository<Category> _categoryRepository;
+    private readonly IMenuItemRepository _menuItemRepository;
     private readonly IMapper _mapper;
     private readonly IValidator<CreateCategoryDto> _createCategoryValidator;
     private readonly IValidator<UpdateCategoryDto> _updateCategoryValidator;
 
-    public CategoryService(IGenericRepository<Category> categoryRepository, IMapper mapper, IValidator<CreateCategoryDto> createCategoryValidator, IValidator<UpdateCategoryDto> updateCategoryValidator)
+    public CategoryService(IGenericRepository<Category> categoryRepository, IMapper mapper, IValidator<CreateCategoryDto> createCategoryValidator, IValidator<UpdateCategoryDto> updateCategoryValidator, IMenuItemRepository menuItemRepository)
     {
         _categoryRepository = categoryRepository;
         _mapper = mapper;
         _createCategoryValidator = createCategoryValidator;
         _updateCategoryValidator = updateCategoryValidator;
+        _menuItemRepository = menuItemRepository;
     }
 
     public async Task<ResponseDto<object>> CreateCategory(CreateCategoryDto createCategoryDto)
@@ -84,6 +87,30 @@ public class CategoryService : ICategoryService
         }
     }
 
+    public async Task<ResponseDto<List<ResultCategoryWithMenuItemDto>>> GetAllCategoriesWithMenuItems()
+    {
+        try
+        {
+            var categories = await _categoryRepository.GetAllAsync();
+            if (categories.Count == 0)
+            {
+                return new ResponseDto<List<ResultCategoryWithMenuItemDto>> { IsSuccess = false, Message = "Kategori Bulunamadı.", ErrorCode = ErrorCodes.NotFound };
+            }
+            var result = _mapper.Map<List<ResultCategoryWithMenuItemDto>>(categories);
+            foreach (var item in result)
+            {
+                var listMenuItems = await _menuItemRepository.GetMenuItemFilterByCategoryIdAsync(item.Id);
+                var newList = _mapper.Map<List<CategoriesMenuItemDto>>(listMenuItems);
+                item.MenuItems = newList;
+            }
+            return new ResponseDto<List<ResultCategoryWithMenuItemDto>> { IsSuccess = true, Data = result };
+        }
+        catch (Exception)
+        {
+            return new ResponseDto<List<ResultCategoryWithMenuItemDto>> { IsSuccess = false, Message = "Bir hata oluştu.", ErrorCode = ErrorCodes.Exception };
+        }
+    }
+
     public async Task<ResponseDto<DetailCategoryDto>> GetCategoryById(int id)
     {
         try
@@ -93,7 +120,10 @@ public class CategoryService : ICategoryService
             {
                 return new ResponseDto<DetailCategoryDto> { IsSuccess = false, Message = "Kategori Bulunamadı.", ErrorCode = ErrorCodes.NotFound };
             }
+            var menuItems = await _menuItemRepository.GetMenuItemFilterByCategoryIdAsync(id);
             var result = _mapper.Map<DetailCategoryDto>(category);
+            var newList = _mapper.Map<List<CategoriesMenuItemDto>>(menuItems);
+            result.MenuIems = newList;
             return new ResponseDto<DetailCategoryDto> { IsSuccess = true, Data = result };
         }
         catch (Exception e)

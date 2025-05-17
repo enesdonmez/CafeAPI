@@ -16,13 +16,13 @@ public class UpdateOrderValidator : AbstractValidator<UpdateOrderDto>
         RuleFor(x => x.OrderItems)
             .NotEmpty()
             .WithMessage("Sipariş öğeleri girilmesi zorunludur.");
-        RuleFor(x => x.TotalPrice)
-            .NotEmpty()
-            .WithMessage("Toplam fiyat girilmesi zorunludur.")
-            .GreaterThan(1)
-            .WithMessage("Toplam fiyat 1 den büyük olmalı.");
-        RuleFor(x => x.Status)
-            .NotEmpty()
-            .WithMessage("Sipariş durumu girilmesi zorunludur.");
+        //RuleFor(x => x.TotalPrice)
+        //    .NotEmpty()
+        //    .WithMessage("Toplam fiyat girilmesi zorunludur.")
+        //    .GreaterThan(1)
+        //    .WithMessage("Toplam fiyat 1 den büyük olmalı.");
+        //RuleFor(x => x.Status)
+        //    .NotEmpty()
+        //    .WithMessage("Sipariş durumu girilmesi zorunludur.");
     }
 }

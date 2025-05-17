@@ -8,7 +8,7 @@ namespace CafeAPI.Api.Controllers
     [ApiController]
     public class OrdersController(IOrderService _orderService) : BaseController
     {
-      
+
         [HttpGet]
         public async Task<IActionResult> GetAllOrders()
         {
@@ -48,6 +48,41 @@ namespace CafeAPI.Api.Controllers
         {
             var orders = await _orderService.GetAllOrdersWithDetail();
             return CreateResponse(orders);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateOrderStatusHazir(int id)
+        {
+            var result = await _orderService.UpdateOrderStatusHazir(id);
+            return CreateResponse(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateOrderStatusTeslim(int id)
+        {
+            var result = await _orderService.UpdateOrderStatusTeslimEdildi(id);
+            return CreateResponse(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateOrderStatusIptal(int id)
+        {
+            var result = await _orderService.UpdateOrderStatusIptal(id);
+            return CreateResponse(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateOrderStatusOdendi(int id)
+        {
+            var result = await _orderService.UpdateOrderStatusOdendi(id);
+            return CreateResponse(result);
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> AddOrderItemByOrderId(AddOrderItemByOrderIdDto dto)
+        {
+            var result = await _orderService.AddOrderItemByOrderId(dto);
+            return CreateResponse(result);
         }
     }
 }

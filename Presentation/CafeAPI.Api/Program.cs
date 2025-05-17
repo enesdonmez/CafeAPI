@@ -17,6 +17,7 @@ public class Program
         builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         builder.Services.AddScoped<ITableRepository,TableRepository>();
         builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+        builder.Services.AddScoped<IMenuItemRepository, MenuItemRepository>();
         builder.Services.AddApplicationServices();
         builder.Services.AddControllers();
         builder.Services.AddOpenApi();
