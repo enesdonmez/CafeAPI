@@ -38,5 +38,6 @@ public class GeneralMapping : Profile
         CreateMap<OrderItem, CreateOrderItemDto>().ReverseMap();
         CreateMap<OrderItem, UpdateOrderItemDto>().ReverseMap();
         CreateMap<OrderItem, DetailOrderItemDto>().ReverseMap();
+
     }
 }

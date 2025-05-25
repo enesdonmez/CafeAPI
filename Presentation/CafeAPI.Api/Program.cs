@@ -1,12 +1,16 @@
 using CafeAPI.Application;
 using CafeAPI.Application.Interfaces;
+using CafeAPI.Application.Services.Abstract;
 using CafeAPI.Persistence;
 using CafeAPI.Persistence.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
+using System.Text;
 
 namespace CafeAPI.Api;
 
-public class Program
+public class Program 
 {
     public static void Main(string[] args)
     {
@@ -15,13 +19,36 @@ public class Program
 
         builder.Services.AddPersistenceServices(builder.Configuration);
         builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-        builder.Services.AddScoped<ITableRepository,TableRepository>();
+        builder.Services.AddScoped<ITableRepository, TableRepository>();
         builder.Services.AddScoped<IOrderRepository, OrderRepository>();
         builder.Services.AddScoped<IMenuItemRepository, MenuItemRepository>();
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddApplicationServices();
         builder.Services.AddControllers();
         builder.Services.AddOpenApi();
+        builder.Services.AddEndpointsApiExplorer();
 
+        builder.Services.AddAuthentication(opt =>
+        {
+
+            opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+        }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                };
+            });
+
+        builder.Services.AddHttpContextAccessor();
         var app = builder.Build();
 
         if (app.Environment.IsDevelopment())
@@ -37,6 +64,7 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
 

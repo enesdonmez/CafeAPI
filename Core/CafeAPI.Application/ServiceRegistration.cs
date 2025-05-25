@@ -3,6 +3,7 @@ using CafeAPI.Application.Dtos.MenuItemDtos;
 using CafeAPI.Application.Dtos.OrderDtos;
 using CafeAPI.Application.Dtos.OrderItemDtos;
 using CafeAPI.Application.Dtos.TableDtos;
+using CafeAPI.Application.Dtos.UserDtos;
 using CafeAPI.Application.Helpers;
 using CafeAPI.Application.Mapping;
 using CafeAPI.Application.Services.Abstract;
@@ -23,6 +24,7 @@ public static class ServiceRegistration
         serviceCollection.AddScoped<IOrderService, OrderService>();
         serviceCollection.AddScoped<IOrderItemItemService, OrderItemService>();
         serviceCollection.AddScoped<IAuthService, AuthService>();
+        serviceCollection.AddScoped<IUserService, UserService>();
         serviceCollection.AddTransient<TokenHelper>();
         serviceCollection.AddValidatorsFromAssemblyContaining<CreateCategoryDto>();
         serviceCollection.AddValidatorsFromAssemblyContaining<UpdateCategoryDto>();
@@ -34,6 +36,7 @@ public static class ServiceRegistration
         serviceCollection.AddValidatorsFromAssemblyContaining<UpdateOrderItemDto>();
         serviceCollection.AddValidatorsFromAssemblyContaining<CreateOrderDto>();
         serviceCollection.AddValidatorsFromAssemblyContaining<UpdateOrderDto>();
+        serviceCollection.AddValidatorsFromAssemblyContaining<RegisterDto>();
 
     }
 }
