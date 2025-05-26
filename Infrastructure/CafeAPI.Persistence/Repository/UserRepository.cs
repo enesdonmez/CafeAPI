@@ -16,6 +16,23 @@ namespace CafeAPI.Persistence.Repository
             _signInManager = signInManager;
         }
 
+        public async Task<UserDto> CheckUserAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user != null)
+            {
+                return new UserDto { Email = user.Email, Id = user.Id };
+            }
+            return new UserDto();
+        }
+
+        public async Task<SignInResult> CheckUserWithPasswordAsync(LoginDto dto)
+        {
+            var user = await _userManager.FindByEmailAsync(dto.Email);
+            var  result = await _signInManager.CheckPasswordSignInAsync(user, dto.Password, false);
+            return result;
+        }
+
         public async Task<SignInResult> LoginAsync(LoginDto dto)
         {
             var user = await _userManager.FindByEmailAsync(dto.Email);

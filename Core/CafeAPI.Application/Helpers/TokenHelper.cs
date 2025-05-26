@@ -1,4 +1,5 @@
 ﻿using CafeAPI.Application.Dtos.AuthDtos;
+using CafeAPI.Application.Dtos.UserDtos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

@@ -8,5 +8,7 @@ namespace CafeAPI.Application.Services.Abstract
         Task<SignInResult> LoginAsync(LoginDto dto);
         Task LogoutAsync();
         Task<IdentityResult> RegisterAsync(RegisterDto dto);
+        Task<UserDto> CheckUserAsync(string email);
+        Task<SignInResult> CheckUserWithPasswordAsync(LoginDto dto);
     }
 }
