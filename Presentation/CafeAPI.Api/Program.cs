@@ -1,10 +1,12 @@
 using CafeAPI.Application;
 using CafeAPI.Application.Interfaces;
 using CafeAPI.Persistence;
+using CafeAPI.Persistence.Middleware;
 using CafeAPI.Persistence.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
+using Serilog;
 using System.Text;
 
 namespace CafeAPI.Api;
@@ -49,6 +51,14 @@ public class Program
             });
 
         builder.Services.AddHttpContextAccessor();
+
+        Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(builder.Configuration)
+            .Enrich.FromLogContext()
+            .CreateLogger();
+
+        builder.Host.UseSerilog();
+
         var app = builder.Build();
 
         if (app.Environment.IsDevelopment())
@@ -63,7 +73,7 @@ public class Program
         }
 
         app.UseHttpsRedirection();
-
+        app.UseMiddleware<SerilogMiddleware>();
         app.UseAuthentication();
         app.UseAuthorization();
 

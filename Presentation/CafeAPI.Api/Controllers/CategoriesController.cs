@@ -2,6 +2,7 @@
 using CafeAPI.Application.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace CafeAPI.Api.Controllers
 {
@@ -10,16 +11,23 @@ namespace CafeAPI.Api.Controllers
     public class CategoriesController : BaseController
     {
         private readonly ICategoryService _categoryService;
+        private readonly ILogger<CategoriesController> _logger;
 
-        public CategoriesController(ICategoryService categoryService)
+        public CategoriesController(ICategoryService categoryService, ILogger<CategoriesController> logger)
         {
             _categoryService = categoryService;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllCategories()
         {
+            _logger.LogInformation("GetAllCategories endpoint called");
+
             var categories = await _categoryService.GetAllCategories();
+
+            _logger.LogInformation("GetAllCategories: Categories={Success}, Count={Count}", categories.Data, ((IEnumerable<object>)categories.Data).Count());
+
             return CreateResponse(categories);
         }
 
@@ -27,7 +35,7 @@ namespace CafeAPI.Api.Controllers
         public async Task<IActionResult> GetCategoryById(int id)
         {
             var category = await _categoryService.GetCategoryById(id);
-           return CreateResponse(category);
+            return CreateResponse(category);
         }
 
         [Authorize(Roles = "admin")]
