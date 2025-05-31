@@ -1,12 +1,11 @@
 ﻿using CafeAPI.Application.Dtos.CategoryDtos;
-using CafeAPI.Application.Dtos.ResponseDtos;
 using CafeAPI.Application.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CafeAPI.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/categories")]
     [ApiController]
     public class CategoriesController : BaseController
     {
@@ -17,7 +16,7 @@ namespace CafeAPI.Api.Controllers
             _categoryService = categoryService;
         }
 
-        [HttpGet("GetAllCategory")]
+        [HttpGet]
         public async Task<IActionResult> GetAllCategories()
         {
             var categories = await _categoryService.GetAllCategories();
@@ -31,7 +30,7 @@ namespace CafeAPI.Api.Controllers
            return CreateResponse(category);
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto createCategoryDto)
         {
@@ -39,13 +38,15 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
-        [HttpPut("UpdateCategory")]
+        [Authorize(Roles = "admin")]
+        [HttpPut]
         public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryDto updateCategoryDto)
         {
             var result = await _categoryService.UpdateCategory(updateCategoryDto);
             return CreateResponse(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
@@ -53,7 +54,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
-        [HttpGet("GetAllCategoriesWithMenuItems")]
+        [HttpGet("categorieswithmenuitem")]
         public async Task<IActionResult> GetAllCategoriesWithMenuItems()
         {
             var categories = await _categoryService.GetAllCategoriesWithMenuItems();

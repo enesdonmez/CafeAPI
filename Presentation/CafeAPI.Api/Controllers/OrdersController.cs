@@ -1,14 +1,15 @@
 ﻿using CafeAPI.Application.Dtos.OrderDtos;
 using CafeAPI.Application.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CafeAPI.Api.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Authorize(Roles = "admin,employee")]
+    [Route("api/orders")]
     [ApiController]
     public class OrdersController(IOrderService _orderService) : BaseController
     {
-
         [HttpGet]
         public async Task<IActionResult> GetAllOrders()
         {
@@ -43,42 +44,43 @@ namespace CafeAPI.Api.Controllers
             var result = await _orderService.DeleteOrder(id);
             return CreateResponse(result);
         }
-        [HttpGet]
+
+        [HttpGet("detail")]
         public async Task<IActionResult> GetAllOrdersWithDetail()
         {
             var orders = await _orderService.GetAllOrdersWithDetail();
             return CreateResponse(orders);
         }
 
-        [HttpPut("{id}")]
+        [HttpPatch("{id}/status-hazir")]
         public async Task<IActionResult> UpdateOrderStatusHazir(int id)
         {
             var result = await _orderService.UpdateOrderStatusHazir(id);
             return CreateResponse(result);
         }
 
-        [HttpPut("{id}")]
+        [HttpPatch("{id}/status-teslim")]
         public async Task<IActionResult> UpdateOrderStatusTeslim(int id)
         {
             var result = await _orderService.UpdateOrderStatusTeslimEdildi(id);
             return CreateResponse(result);
         }
 
-        [HttpPut("{id}")]
+        [HttpPatch("{id}/status-iptal")]
         public async Task<IActionResult> UpdateOrderStatusIptal(int id)
         {
             var result = await _orderService.UpdateOrderStatusIptal(id);
             return CreateResponse(result);
         }
 
-        [HttpPut("{id}")]
+        [HttpPatch("{id}/status-odendi")]
         public async Task<IActionResult> UpdateOrderStatusOdendi(int id)
         {
             var result = await _orderService.UpdateOrderStatusOdendi(id);
             return CreateResponse(result);
         }
 
-        [HttpPatch]
+        [HttpPost("orderitems")]
         public async Task<IActionResult> AddOrderItemByOrderId(AddOrderItemByOrderIdDto dto)
         {
             var result = await _orderService.AddOrderItemByOrderId(dto);

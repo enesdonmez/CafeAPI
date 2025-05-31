@@ -1,5 +1,5 @@
 ﻿using CafeAPI.Application.Dtos.UserDtos;
-using CafeAPI.Application.Services.Abstract;
+using CafeAPI.Application.Interfaces;
 using CafeAPI.Persistence.Identity;
 using Microsoft.AspNetCore.Identity;
 
@@ -21,7 +21,8 @@ namespace CafeAPI.Persistence.Repository
             var user = await _userManager.FindByEmailAsync(email);
             if (user != null)
             {
-                return new UserDto { Email = user.Email, Id = user.Id };
+                var role = await _userManager.GetRolesAsync(user);
+                return new UserDto { Email = user.Email, Id = user.Id , RoleName = role.FirstOrDefault() };
             }
             return new UserDto();
         }

@@ -1,28 +1,30 @@
 ﻿using CafeAPI.Application.Dtos.TableDtos;
 using CafeAPI.Application.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CafeAPI.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize(Roles = "admin,employee")]
+    [Route("api/tables")]
     [ApiController]
     public class TablesController(ITableService _tableService) : BaseController
     {
-        [HttpGet("GetAllTables")]
+        [HttpGet]
         public async Task<IActionResult> GetAllTables()
         {
             var tables = await _tableService.GetAllTables();
             return CreateResponse(tables);
         }
 
-        [HttpPost("CreateTable")]
+        [HttpPost]
         public async Task<IActionResult> CreateTable(CreateTableDto createTableDto)
         {
             var result = await _tableService.CreateTable(createTableDto);
             return CreateResponse(result);
         }
 
-        [HttpPut("UpdateTable")]
+        [HttpPut]
         public async Task<IActionResult> UpdateTable(UpdateTableDto updateTableDto)
         {
             var result = await _tableService.UpdateTable(updateTableDto);
@@ -36,21 +38,21 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
-        [HttpGet("GetByIdTable/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetTableById(int id)
         {
             var table = await _tableService.GetTableById(id);
             return CreateResponse(table);
         }
 
-        [HttpGet("GetTableByTableNumber/{number}")]
+        [HttpGet("by-table-number/{number}")]
         public async Task<IActionResult> GetTableByTableNumber(int number)
         {
             var table = await _tableService.GetTableByTableNumber(number);
             return CreateResponse(table);
         }
 
-        [HttpGet("GetAllActiveTables")]
+        [HttpGet("active-tables")]
         public async Task<IActionResult> GetAllActiveTables()
         {
             var tables = await _tableService.GetAllActiveTables();
@@ -58,7 +60,7 @@ namespace CafeAPI.Api.Controllers
 
         }
 
-        [HttpGet("GetAllActiveTablesGeneric")]
+        [HttpGet("active-tables-generic")]
         public async Task<IActionResult> GetAllActiveTablesGeneric()
         {
             var tables = await _tableService.GetAllActiveTablesGeneric();
@@ -66,7 +68,7 @@ namespace CafeAPI.Api.Controllers
 
         }
 
-        [HttpPut("UpdateTableStatusById")]
+        [HttpPatch("{id}/status")]
         public async Task<IActionResult> UpdateTableStatusById(int id)
         {
             var result = await _tableService.UpdateTableStatusById(id);
@@ -74,7 +76,7 @@ namespace CafeAPI.Api.Controllers
 
         }
 
-        [HttpPut("UpdateTableStatusByTableNumber")]
+        [HttpPatch("by-table-number/{tableNumber}/status")]
         public async Task<IActionResult> UpdateTableStatusByTableNumber(int tableNumber)
         {
             var result = await _tableService.UpdateTableStatusByTableNumber(tableNumber);

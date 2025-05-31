@@ -25,6 +25,7 @@ public static class ServiceRegistration
         serviceCollection.AddScoped<IOrderItemItemService, OrderItemService>();
         serviceCollection.AddScoped<IAuthService, AuthService>();
         serviceCollection.AddScoped<IUserService, UserService>();
+        serviceCollection.AddScoped<IRoleService, RoleService>();
         serviceCollection.AddTransient<TokenHelper>();
         serviceCollection.AddValidatorsFromAssemblyContaining<CreateCategoryDto>();
         serviceCollection.AddValidatorsFromAssemblyContaining<UpdateCategoryDto>();

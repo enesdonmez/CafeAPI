@@ -26,7 +26,7 @@ public class TokenHelper
         {
             new Claim("_e", dto.Email),
             new Claim("_u", dto.Id),
-            new Claim("_r", dto.Role),
+            new Claim("role", dto.Role),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 

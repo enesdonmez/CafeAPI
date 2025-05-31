@@ -2,6 +2,7 @@
 using CafeAPI.Application.Dtos.ResponseDtos;
 using CafeAPI.Application.Dtos.UserDtos;
 using CafeAPI.Application.Helpers;
+using CafeAPI.Application.Interfaces;
 using CafeAPI.Application.Services.Abstract;
 
 namespace CafeAPI.Application.Services.Concrete
@@ -31,11 +32,11 @@ namespace CafeAPI.Application.Services.Concrete
                         {
                             Email = dto.Email,
                             Id = check_user.Id,
-                            Role = "Admin"
+                            Role = check_user.RoleName
                         };
                         string token = _tokenHelper.GenerateToken(tokenDto);
                         if (!string.IsNullOrEmpty(token))
-                            return new ResponseDto<object> { IsSuccess = true, Data = token, Message = "Token oluşturuldu" };
+                            return new ResponseDto<object> { IsSuccess = true, Data = new { token = token }, Message = "Token oluşturuldu" };
                     }
                     return new ResponseDto<object> { IsSuccess = false, Data = null, Message = "Token oluşturulamadı", ErrorCode = ErrorCodes.BadRequest };
                 }

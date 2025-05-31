@@ -1,7 +1,7 @@
 ﻿using CafeAPI.Application.Dtos.UserDtos;
 using Microsoft.AspNetCore.Identity;
 
-namespace CafeAPI.Application.Services.Abstract
+namespace CafeAPI.Application.Interfaces
 {
     public interface IUserRepository
     {

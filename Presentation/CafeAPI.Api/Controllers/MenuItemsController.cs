@@ -1,12 +1,11 @@
 ﻿using CafeAPI.Application.Dtos.MenuItemDtos;
-using CafeAPI.Application.Dtos.ResponseDtos;
 using CafeAPI.Application.Services.Abstract;
-using CafeAPI.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CafeAPI.Api.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/menuitems")]
     [ApiController]
     public class MenuItemsController : BaseController
     {
@@ -17,7 +16,7 @@ namespace CafeAPI.Api.Controllers
             _menuItemService = menuItemService;
         }
 
-        [HttpGet("GetAllMenuItem")]
+        [HttpGet]
         public async Task<IActionResult> GetAllMenuItems()
         {
             var menuItems = await _menuItemService.GetAllMenuItems();
@@ -31,6 +30,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(menuItem);
         }
 
+        [Authorize(Roles = "user")]
         [HttpPost]
         public async Task<IActionResult> CreateMenuItem([FromBody] CreateMenuItemDto createMenuItemDto)
         {
@@ -38,13 +38,15 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
-        [HttpPut("UpdateMenuItem")]
+        [Authorize(Roles = "user")]
+        [HttpPut]
         public async Task<IActionResult> UpdateMenuItem([FromBody] UpdateMenuItemDto updateMenuItemDto)
         {
             var result = await _menuItemService.UpdateMenuItem(updateMenuItemDto);
             return CreateResponse(result);
         }
 
+        [Authorize(Roles = "user")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMenuItem(int id)
         {

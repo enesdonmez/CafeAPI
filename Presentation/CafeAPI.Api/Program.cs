@@ -1,6 +1,5 @@
 using CafeAPI.Application;
 using CafeAPI.Application.Interfaces;
-using CafeAPI.Application.Services.Abstract;
 using CafeAPI.Persistence;
 using CafeAPI.Persistence.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -23,6 +22,7 @@ public class Program
         builder.Services.AddScoped<IOrderRepository, OrderRepository>();
         builder.Services.AddScoped<IMenuItemRepository, MenuItemRepository>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IRoleRepository, RoleRepository>();
         builder.Services.AddApplicationServices();
         builder.Services.AddControllers();
         builder.Services.AddOpenApi();
