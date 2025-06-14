@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using Serilog;
+using Serilog.Sinks.MSSqlServer;
 using System.Text;
 
 namespace CafeAPI.Api;
@@ -29,6 +30,7 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddOpenApi();
         builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddHttpContextAccessor();
 
         builder.Services.AddAuthentication(opt =>
         {
@@ -58,7 +60,6 @@ public class Program
             .CreateLogger();
 
         builder.Host.UseSerilog();
-
         var app = builder.Build();
 
         if (app.Environment.IsDevelopment())
@@ -73,9 +74,9 @@ public class Program
         }
 
         app.UseHttpsRedirection();
-        app.UseMiddleware<SerilogMiddleware>();
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseMiddleware<SerilogMiddleware>();
 
 
         app.MapControllers();
