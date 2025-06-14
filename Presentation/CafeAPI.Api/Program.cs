@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using CafeAPI.Application;
 using CafeAPI.Application.Interfaces;
 using CafeAPI.Persistence;
@@ -12,7 +13,7 @@ using System.Text;
 
 namespace CafeAPI.Api;
 
-public class Program 
+public class Program
 {
     public static void Main(string[] args)
     {
@@ -60,6 +61,12 @@ public class Program
             .CreateLogger();
 
         builder.Host.UseSerilog();
+
+        builder.Services.AddMemoryCache();
+        builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimit"));
+        builder.Services.AddInMemoryRateLimiting();
+        builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
         var app = builder.Build();
 
         if (app.Environment.IsDevelopment())
@@ -73,6 +80,7 @@ public class Program
             });
         }
 
+        app.UseIpRateLimiting();
         app.UseHttpsRedirection();
         app.UseAuthentication();
         app.UseAuthorization();
