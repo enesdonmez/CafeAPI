@@ -59,5 +59,12 @@ namespace CafeAPI.Api.Controllers
             var result = await _userService.CheckUserWithPassword(loginDto);
             return CreateResponse(result);
         }
+
+        [HttpPost("default-register")]
+        public async Task<IActionResult> RegisterDefault(RegisterDto registerDto)
+        {
+            var result = await _userService.DefaultRegister(registerDto);
+            return CreateResponse(result);
+        }
     }
 }
