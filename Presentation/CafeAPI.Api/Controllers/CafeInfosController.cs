@@ -1,5 +1,6 @@
 ﻿using CafeAPI.Application.Dtos.CafeInfoDtos;
 using CafeAPI.Application.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CafeAPI.Api.Controllers
@@ -8,6 +9,7 @@ namespace CafeAPI.Api.Controllers
     [ApiController]
     public class CafeInfosController(ICafeInfoService cafeInfoService) : BaseController
     {
+        [Authorize("admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllCafeInfos()
         {
@@ -15,6 +17,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(cafeInfos);
         }
 
+        [Authorize("admin")]
         [HttpPost]
         public async Task<IActionResult> CreateCafeInfo(CreateCafeInfoDto createCafeInfoDto)
         {
@@ -22,6 +25,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
+        [Authorize("admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCafeInfoById(int id)
         {
@@ -29,6 +33,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(cafeInfo);
         }
 
+        [Authorize(Roles = "admin,user")]
         [HttpPut]
         public async Task<IActionResult> UpdateCafeInfo(UpdateCafeInfoDto updateCafeInfoDto)
         {
@@ -36,6 +41,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
+        [Authorize("admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCafeInfo(int id)
         {
