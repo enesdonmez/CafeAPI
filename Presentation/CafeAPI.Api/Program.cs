@@ -79,12 +79,11 @@ public class Program
                        .WithDefaultHttpClient(ScalarTarget.Http, ScalarClient.Http11);
             });
         }
-
+        app.UseMiddleware<SerilogMiddleware>();
         app.UseIpRateLimiting();
         app.UseHttpsRedirection();
         app.UseAuthentication();
         app.UseAuthorization();
-        app.UseMiddleware<SerilogMiddleware>();
 
 
         app.MapControllers();
