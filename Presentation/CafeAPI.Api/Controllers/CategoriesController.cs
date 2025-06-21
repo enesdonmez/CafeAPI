@@ -2,6 +2,7 @@
 using CafeAPI.Application.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Serilog;
 
 namespace CafeAPI.Api.Controllers
@@ -26,7 +27,8 @@ namespace CafeAPI.Api.Controllers
 
             var categories = await _categoryService.GetAllCategories();
 
-            _logger.LogInformation("GetAllCategories: Categories={Success}, Count={Count}", categories.Data, ((IEnumerable<object>)categories.Data).Count());
+            _logger.LogInformation("GetAllCategories: Categories={Categories}, Count={Count}",JsonConvert.SerializeObject(categories.Data),categories.Data.Count());
+
 
             return CreateResponse(categories);
         }
