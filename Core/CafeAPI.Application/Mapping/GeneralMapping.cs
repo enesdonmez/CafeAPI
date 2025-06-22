@@ -4,6 +4,7 @@ using CafeAPI.Application.Dtos.CategoryDtos;
 using CafeAPI.Application.Dtos.MenuItemDtos;
 using CafeAPI.Application.Dtos.OrderDtos;
 using CafeAPI.Application.Dtos.OrderItemDtos;
+using CafeAPI.Application.Dtos.ReviewDtos;
 using CafeAPI.Application.Dtos.TableDtos;
 using CafeAPI.Domain.Entities;
 
@@ -44,6 +45,11 @@ public class GeneralMapping : Profile
         CreateMap<CafeInfo, UpdateCafeInfoDto>().ReverseMap();
         CreateMap<CafeInfo, CreateCafeInfoDto>().ReverseMap();
         CreateMap<CafeInfo, DetailCafeInfoDto>().ReverseMap();
+
+        CreateMap<Review, ResultReviewDto>().ReverseMap();
+        CreateMap<Review, CreateReviewDto>().ReverseMap();
+        CreateMap<Review, UpdateReviewDto>().ReverseMap();
+        CreateMap<Review, DetailReviewDto>().ReverseMap();
 
     }
 }
