@@ -25,5 +25,10 @@ namespace CafeAPI.Api.Controllers
                 _ => BadRequest(response)
             };
         }
+
+        protected string GetUserId()
+        {
+            return User?.Claims.FirstOrDefault(x => x.Type == "_e")?.Value ?? string.Empty;
+        }
     }
 }

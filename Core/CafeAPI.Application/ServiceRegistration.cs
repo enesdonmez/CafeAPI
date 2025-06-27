@@ -3,6 +3,7 @@ using CafeAPI.Application.Dtos.CategoryDtos;
 using CafeAPI.Application.Dtos.MenuItemDtos;
 using CafeAPI.Application.Dtos.OrderDtos;
 using CafeAPI.Application.Dtos.OrderItemDtos;
+using CafeAPI.Application.Dtos.ReviewDtos;
 using CafeAPI.Application.Dtos.TableDtos;
 using CafeAPI.Application.Dtos.UserDtos;
 using CafeAPI.Application.Helpers;
@@ -28,6 +29,7 @@ public static class ServiceRegistration
         serviceCollection.AddScoped<IUserService, UserService>();
         serviceCollection.AddScoped<IRoleService, RoleService>();
         serviceCollection.AddScoped<ICafeInfoService, CafeInfoService>();
+        serviceCollection.AddScoped<IReviewService, ReviewService>();
         serviceCollection.AddTransient<TokenHelper>();
         serviceCollection.AddValidatorsFromAssemblyContaining<CreateCategoryDto>();
         serviceCollection.AddValidatorsFromAssemblyContaining<UpdateCategoryDto>();
@@ -42,6 +44,8 @@ public static class ServiceRegistration
         serviceCollection.AddValidatorsFromAssemblyContaining<RegisterDto>();
         serviceCollection.AddValidatorsFromAssemblyContaining<CreateCafeInfoDto>();
         serviceCollection.AddValidatorsFromAssemblyContaining<UpdateCafeInfoDto>();
+        serviceCollection.AddValidatorsFromAssemblyContaining<CreateReviewDto>();
+        serviceCollection.AddValidatorsFromAssemblyContaining<UpdateReviewDto>();
 
 
     }

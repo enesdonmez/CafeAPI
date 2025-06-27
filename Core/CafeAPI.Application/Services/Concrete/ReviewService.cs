@@ -41,6 +41,7 @@ namespace CafeAPI.Application.Services.Concrete
                 }
 
                 var review = _mapper.Map<Review>(createReviewDto);
+                review.CreatedAt = DateTime.Now;
                 await _reviewRepository.AddAsync(review);
                 return new ResponseDto<object>
                 {
