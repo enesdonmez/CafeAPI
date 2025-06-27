@@ -1,4 +1,6 @@
 ﻿using CafeAPI.Application.Dtos.CafeInfoDtos;
+using CafeAPI.Application.Dtos.ResponseDtos;
+using CafeAPI.Application.Dtos.ReviewDtos;
 using CafeAPI.Application.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +11,7 @@ namespace CafeAPI.Api.Controllers
     [ApiController]
     public class CafeInfosController(ICafeInfoService cafeInfoService) : BaseController
     {
+        [EndpointDescription("Kafe bilgilerini listeler.")]
         [Authorize("admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllCafeInfos()
@@ -17,6 +20,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(cafeInfos);
         }
 
+        [EndpointDescription("Kafe bilgilerini ekler.")]
         [Authorize("admin")]
         [HttpPost]
         public async Task<IActionResult> CreateCafeInfo(CreateCafeInfoDto createCafeInfoDto)
@@ -24,7 +28,8 @@ namespace CafeAPI.Api.Controllers
             var result = await cafeInfoService.CreateCafeInfo(createCafeInfoDto);
             return CreateResponse(result);
         }
-
+        
+        [EndpointDescription("Kafe bilgilerini Id ye göre getirir.")]
         [Authorize("admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCafeInfoById(int id)
@@ -33,6 +38,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(cafeInfo);
         }
 
+        [EndpointDescription("Kafe bilgisini günceller.")]
         [Authorize(Roles = "admin,user")]
         [HttpPut]
         public async Task<IActionResult> UpdateCafeInfo(UpdateCafeInfoDto updateCafeInfoDto)
@@ -41,6 +47,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
+        [EndpointDescription("Kafe bilgisini Id ye göre siler.")]
         [Authorize("admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCafeInfo(int id)

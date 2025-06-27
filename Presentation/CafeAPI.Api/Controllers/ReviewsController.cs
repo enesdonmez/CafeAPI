@@ -2,6 +2,7 @@
 using CafeAPI.Application.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace CafeAPI.Api.Controllers
 {
@@ -9,6 +10,8 @@ namespace CafeAPI.Api.Controllers
     [ApiController]
     public class ReviewsController(IReviewService _reviewService) : BaseController
     {
+        [EndpointDescription("Yorumları listeler.")]
+        [ProducesResponseType<IList<ResultReviewDto>>(StatusCodes.Status200OK, "application/json")]
         [HttpGet]
         public async Task<IActionResult> GetAllReviews()
         {
@@ -16,6 +19,8 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(reviews);
         }
 
+        [EndpointDescription("ID ye göre yorumu getirir.")]
+        [ProducesResponseType<IList<DetailReviewDto>>(StatusCodes.Status200OK, "application/json")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetReviewById(int id)
         {
@@ -23,6 +28,8 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(review);
         }
 
+        [EndpointDescription("Yorum ekler.")]
+        [ProducesResponseType<IList<CreateReviewDto>>(StatusCodes.Status200OK, "application/json")]
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateReview(CreateReviewDto createReviewDto)
@@ -31,6 +38,8 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
+        [EndpointDescription("Yorumu günceller.")]
+        [ProducesResponseType<IList<UpdateReviewDto>>(StatusCodes.Status200OK, "application/json")]
         [HttpPut]
         public async Task<IActionResult> UpdateReview(UpdateReviewDto updateReviewDto)
         {
@@ -38,6 +47,8 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
+        [EndpointDescription("ID ye göre yorumu siler.")]
+        [ProducesResponseType<int>(StatusCodes.Status200OK, "application/json")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReview(int id)
         {

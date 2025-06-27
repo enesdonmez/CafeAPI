@@ -1,4 +1,5 @@
-﻿using CafeAPI.Application.Dtos.UserDtos;
+﻿using CafeAPI.Application.Dtos.ResponseDtos;
+using CafeAPI.Application.Dtos.UserDtos;
 using CafeAPI.Application.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,7 @@ namespace CafeAPI.Api.Controllers
             _authService = authService;
         }
 
+        [EndpointDescription("Kimlik doğrulama için token oluşturur.")]
         [HttpPost]
         public async Task<IActionResult> GenerateToken([FromBody] LoginDto dto)
         {

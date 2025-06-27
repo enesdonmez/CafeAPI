@@ -11,6 +11,7 @@ namespace CafeAPI.Api.Controllers
     public class TablesController(ITableService _tableService) : BaseController
     {
         [HttpGet]
+        [EndpointDescription("Tüm masaları getirir.")]
         public async Task<IActionResult> GetAllTables()
         {
             var tables = await _tableService.GetAllTables();
@@ -18,6 +19,7 @@ namespace CafeAPI.Api.Controllers
         }
 
         [HttpPost]
+        [EndpointDescription("Yeni masa oluşturur.")]
         public async Task<IActionResult> CreateTable(CreateTableDto createTableDto)
         {
             var result = await _tableService.CreateTable(createTableDto);
@@ -25,6 +27,7 @@ namespace CafeAPI.Api.Controllers
         }
 
         [HttpPut]
+        [EndpointDescription("Mevcut masayı günceller.")]
         public async Task<IActionResult> UpdateTable(UpdateTableDto updateTableDto)
         {
             var result = await _tableService.UpdateTable(updateTableDto);
@@ -32,6 +35,7 @@ namespace CafeAPI.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [EndpointDescription("Belirtilen ID'ye sahip masayı siler.")]
         public async Task<IActionResult> DeleteTable(int id)
         {
             var result = await _tableService.DeleteTable(id);
@@ -39,6 +43,7 @@ namespace CafeAPI.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [EndpointDescription("Belirtilen ID'ye sahip masayı getirir.")]
         public async Task<IActionResult> GetTableById(int id)
         {
             var table = await _tableService.GetTableById(id);
@@ -46,6 +51,7 @@ namespace CafeAPI.Api.Controllers
         }
 
         [HttpGet("by-table-number/{number}")]
+        [EndpointDescription("Belirtilen masa numarasına göre masayı getirir.")]
         public async Task<IActionResult> GetTableByTableNumber(int number)
         {
             var table = await _tableService.GetTableByTableNumber(number);
@@ -53,35 +59,35 @@ namespace CafeAPI.Api.Controllers
         }
 
         [HttpGet("active-tables")]
+        [EndpointDescription("Aktif olan tüm masaları getirir.")]
         public async Task<IActionResult> GetAllActiveTables()
         {
             var tables = await _tableService.GetAllActiveTables();
             return CreateResponse(tables);
-
         }
 
         [HttpGet("active-tables-generic")]
+        [EndpointDescription("Aktif olan tüm masaları getirir.")]
         public async Task<IActionResult> GetAllActiveTablesGeneric()
         {
             var tables = await _tableService.GetAllActiveTablesGeneric();
             return CreateResponse(tables);
-
         }
 
         [HttpPatch("{id}/status")]
+        [EndpointDescription("Belirtilen ID'ye sahip masanın durumunu günceller.")]
         public async Task<IActionResult> UpdateTableStatusById(int id)
         {
             var result = await _tableService.UpdateTableStatusById(id);
             return CreateResponse(result);
-
         }
 
         [HttpPatch("by-table-number/{tableNumber}/status")]
+        [EndpointDescription("Belirtilen masa numarasına göre masanın durumunu günceller.")]
         public async Task<IActionResult> UpdateTableStatusByTableNumber(int tableNumber)
         {
             var result = await _tableService.UpdateTableStatusByTableNumber(tableNumber);
             return CreateResponse(result);
-
         }
     }
 }

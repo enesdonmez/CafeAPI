@@ -9,6 +9,7 @@ namespace CafeAPI.Api.Controllers
     public class RolesController(IRoleService _roleService) : BaseController
     {
         [HttpGet]
+        [EndpointDescription("Tüm rolleri getirir.")]
         public async Task<IActionResult> GetRoles()
         {
             var result = await _roleService.GetAllRoles();
@@ -16,6 +17,7 @@ namespace CafeAPI.Api.Controllers
         }
 
         [HttpPost]
+        [EndpointDescription("Yeni bir rol oluşturur.")]
         public async Task<IActionResult> CreateRole(CreateRoleDto roleDto)
         {
             var result = await _roleService.CreateRole(roleDto.RoleName);
@@ -23,6 +25,7 @@ namespace CafeAPI.Api.Controllers
         }
 
         [HttpPost("add-role-to-user")]
+        [EndpointDescription("Belirtilen kullanıcıya rol atar.")]
         public async Task<IActionResult> AddRoleToUser(AddRoleToUserDto dto)
         {
             var result = await _roleService.AddRoleToUser(dto.Email, dto.RoleName);
@@ -30,6 +33,7 @@ namespace CafeAPI.Api.Controllers
         }
 
         [HttpDelete]
+        [EndpointDescription("Belirtilen rolü siler.")]
         public async Task<IActionResult> DeleteRole(string roleName)
         {
             var result = await _roleService.DeleteRole(roleName);

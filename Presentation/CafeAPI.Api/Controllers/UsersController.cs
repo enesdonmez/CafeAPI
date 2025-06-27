@@ -19,6 +19,7 @@ namespace CafeAPI.Api.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost]
+        [EndpointDescription("Yeni bir kullanıcı kaydı oluşturur.")]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
             var result = await _userService.Register(registerDto);
@@ -27,6 +28,7 @@ namespace CafeAPI.Api.Controllers
 
         [Authorize(Roles = "admin,employee")]
         [HttpPost("login")]
+        [EndpointDescription("Kullanıcı girişi yapar.")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
             var result = await _userService.Login(loginDto);
@@ -34,6 +36,7 @@ namespace CafeAPI.Api.Controllers
         }
 
         [HttpPost("logout")]
+        [EndpointDescription("Kullanıcı çıkışı yapar.")]
         public async Task<IActionResult> Logout()
         {
             await _userService.Logout();
@@ -46,6 +49,7 @@ namespace CafeAPI.Api.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpGet("check/{email}")]
+        [EndpointDescription("Belirtilen e-posta adresine sahip kullanıcıyı kontrol eder.")]
         public async Task<IActionResult> CheckUser(string email)
         {
             var result = await _userService.CheckUser(email);
@@ -54,6 +58,7 @@ namespace CafeAPI.Api.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost("check-with-password")]
+        [EndpointDescription("E-posta ve şifre ile kullanıcı doğrulaması yapar.")]
         public async Task<IActionResult> CheckUserWithPassword([FromBody] LoginDto loginDto)
         {
             var result = await _userService.CheckUserWithPassword(loginDto);
@@ -61,6 +66,7 @@ namespace CafeAPI.Api.Controllers
         }
 
         [HttpPost("default-register")]
+        [EndpointDescription("Varsayılan rollerle yeni kullanıcı kaydı oluşturur.")]
         public async Task<IActionResult> RegisterDefault(RegisterDto registerDto)
         {
             var result = await _userService.DefaultRegister(registerDto);

@@ -10,6 +10,7 @@ namespace CafeAPI.Api.Controllers
     [ApiController]
     public class OrdersController(IOrderService _orderService) : BaseController
     {
+        [EndpointDescription("Siparişleri listeler.")]
         [HttpGet]
         public async Task<IActionResult> GetAllOrders()
         {
@@ -17,6 +18,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(orders);
         }
 
+        [EndpointDescription("Siparişi Id ye göre getirir.")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrderById(int id)
         {
@@ -24,6 +26,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(order);
         }
 
+        [EndpointDescription("Sipariş ekler.")]
         [HttpPost]
         public async Task<IActionResult> CreateOrder(CreateOrderDto createOrderDto)
         {
@@ -31,6 +34,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
+        [EndpointDescription("Siparişi günceller.")]
         [HttpPut]
         public async Task<IActionResult> UpdateOrder(UpdateOrderDto updateOrderDto)
         {
@@ -38,6 +42,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
+        [EndpointDescription("Siparişi siler.")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
@@ -45,6 +50,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
+        [EndpointDescription("Siparişleri detayları ile listeler.")]
         [HttpGet("detail")]
         public async Task<IActionResult> GetAllOrdersWithDetail()
         {
@@ -52,6 +58,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(orders);
         }
 
+        [EndpointDescription("Siparişin durumunu hazır olarak günceller.")]
         [HttpPatch("{id}/status-hazir")]
         public async Task<IActionResult> UpdateOrderStatusHazir(int id)
         {
@@ -59,6 +66,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
+        [EndpointDescription("Siparişin durumunu teslim edildi olarak günceller.")]
         [HttpPatch("{id}/status-teslim")]
         public async Task<IActionResult> UpdateOrderStatusTeslim(int id)
         {
@@ -66,6 +74,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
+        [EndpointDescription("Siparişin durumunu iptal olarak günceller.")]
         [HttpPatch("{id}/status-iptal")]
         public async Task<IActionResult> UpdateOrderStatusIptal(int id)
         {
@@ -73,6 +82,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
+        [EndpointDescription("Siparişin durumunu ödendi olarak günceller.")]
         [HttpPatch("{id}/status-odendi")]
         public async Task<IActionResult> UpdateOrderStatusOdendi(int id)
         {
@@ -80,6 +90,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
+        [EndpointDescription("Siparişe yeni ürün ekler.")]
         [HttpPost("orderitems")]
         public async Task<IActionResult> AddOrderItemByOrderId(AddOrderItemByOrderIdDto dto)
         {

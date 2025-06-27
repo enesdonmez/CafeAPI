@@ -20,6 +20,7 @@ namespace CafeAPI.Api.Controllers
             _logger = logger;
         }
 
+        [EndpointDescription("Kategorileri getirir.")]
         [HttpGet]
         public async Task<IActionResult> GetAllCategories()
         {
@@ -33,6 +34,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(categories);
         }
 
+        [EndpointDescription("Kategorileri getirir.")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryById(int id)
         {
@@ -40,6 +42,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(category);
         }
 
+        [EndpointDescription("Kategori oluşturur.")]
         [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto createCategoryDto)
@@ -48,6 +51,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
+        [EndpointDescription("Kategoriyi günceller.")]
         [Authorize(Roles = "admin")]
         [HttpPut]
         public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryDto updateCategoryDto)
@@ -56,6 +60,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
+        [EndpointDescription("Kategori siler.")]
         [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
@@ -64,6 +69,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
+        [EndpointDescription("Kategorileri menü itemlerine ile birlikte getirir.")]
         [HttpGet("categorieswithmenuitem")]
         public async Task<IActionResult> GetAllCategoriesWithMenuItems()
         {

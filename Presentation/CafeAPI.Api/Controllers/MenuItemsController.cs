@@ -7,22 +7,18 @@ namespace CafeAPI.Api.Controllers
 {
     [Route("api/menuitems")]
     [ApiController]
-    public class MenuItemsController : BaseController
+    public class MenuItemsController(IMenuItemService _menuItemService) : BaseController
     {
-        private readonly IMenuItemService _menuItemService;
 
-        public MenuItemsController(IMenuItemService menuItemService)
-        {
-            _menuItemService = menuItemService;
-        }
-
+        [EndpointDescription("Menüyü getirir.")]
         [HttpGet]
         public async Task<IActionResult> GetAllMenuItems()
         {
             var menuItems = await _menuItemService.GetAllMenuItems();
-           return CreateResponse(menuItems);
+            return CreateResponse(menuItems);
         }
 
+        [EndpointDescription("Menüdeki ürünü Id ye göre getirir.")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMenuItemById(int id)
         {
@@ -30,14 +26,16 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(menuItem);
         }
 
+        [EndpointDescription("Menüye ürün ekler.")]
         [Authorize(Roles = "user")]
         [HttpPost]
         public async Task<IActionResult> CreateMenuItem([FromBody] CreateMenuItemDto createMenuItemDto)
         {
-           var result = await _menuItemService.CreateMenuItem(createMenuItemDto);
+            var result = await _menuItemService.CreateMenuItem(createMenuItemDto);
             return CreateResponse(result);
         }
 
+        [EndpointDescription("Menüdeki ürünü günceller.")]
         [Authorize(Roles = "user")]
         [HttpPut]
         public async Task<IActionResult> UpdateMenuItem([FromBody] UpdateMenuItemDto updateMenuItemDto)
@@ -46,6 +44,7 @@ namespace CafeAPI.Api.Controllers
             return CreateResponse(result);
         }
 
+        [EndpointDescription("Menüdeki ürünü Id ye göre siler.")]
         [Authorize(Roles = "user")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMenuItem(int id)
