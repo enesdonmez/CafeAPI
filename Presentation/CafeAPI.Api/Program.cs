@@ -1,5 +1,6 @@
 using AspNetCoreRateLimit;
 using CafeAPI.Application;
+using CafeAPI.Application.Helpers;
 using CafeAPI.Application.Interfaces;
 using CafeAPI.Persistence;
 using CafeAPI.Persistence.Middleware;
@@ -28,7 +29,11 @@ public class Program
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IRoleRepository, RoleRepository>();
         builder.Services.AddApplicationServices();
-        builder.Services.AddControllers();
+        builder.Services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+            });
         builder.Services.AddOpenApi();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddHttpContextAccessor();
