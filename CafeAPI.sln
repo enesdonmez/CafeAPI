@@ -16,6 +16,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CafeAPI.Persistence", "Infr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CafeAPI.Api", "Presentation\CafeAPI.Api\CafeAPI.Api.csproj", "{E40352DC-6F82-4262-8E3E-87FD672EBD20}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Image", "Image", "{FF1AC310-A182-4B37-B69F-1669B8D7FFD4}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Desktop\cafeApiScalar.png = ..\..\..\Desktop\cafeApiScalar.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
