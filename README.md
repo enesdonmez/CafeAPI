@@ -50,3 +50,6 @@ Tüm uç noktalar, **RESTful** standartlarına uygun şekilde tasarlanmıştır:
 - Anlamlı HTTP durum kodları (status codes)
 - HATEOAS prensibine açık tasarım
 
+###  Proje Görseli
+![scalar](Image/cafeApiScalar.png)
+
