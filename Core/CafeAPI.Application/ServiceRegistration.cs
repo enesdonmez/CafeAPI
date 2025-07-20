@@ -31,6 +31,7 @@ public static class ServiceRegistration
         serviceCollection.AddScoped<IRoleService, RoleService>();
         serviceCollection.AddScoped<ICafeInfoService, CafeInfoService>();
         serviceCollection.AddScoped<IReviewService, ReviewService>();
+        serviceCollection.AddScoped<IQrCodeService, QrCodeService>();
         serviceCollection.AddScoped<IReservationService, ReservationService>();
         serviceCollection.AddTransient<TokenHelper>();
         serviceCollection.AddValidatorsFromAssemblyContaining<CreateCategoryDto>();
